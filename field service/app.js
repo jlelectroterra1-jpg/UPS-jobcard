@@ -277,7 +277,7 @@ async function downloadAndSendPdf() {
         const pdfFilename = buildPdfFileName();
         const emailData = buildEmailData();
 
-        const response = await fetch(emailBackendUrl, {
+        const response = await fetch("/send-job-card", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
