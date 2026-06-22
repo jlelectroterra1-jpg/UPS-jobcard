@@ -23,7 +23,6 @@ app.use(cors({
 }));
 app.use(express.json({ limit: "50mb" }));
 
-const path = require("path");
 
 app.use(express.static(path.join(__dirname, "..")));
 
