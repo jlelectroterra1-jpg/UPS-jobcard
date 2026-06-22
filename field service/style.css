@@ -360,6 +360,14 @@ canvas {
     color: #dbe8f5;
 }
 
+.email-copy-note {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.35;
+}
+
 .email-options label {
     display: flex;
     align-items: center;

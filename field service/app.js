@@ -10,6 +10,7 @@ const appStatus = document.getElementById("appStatus");
 const downloadPdfButton = document.getElementById("downloadPdfButton");
 const downloadSendPdfButton = document.getElementById("downloadSendPdfButton");
 const emailBackendUrl = `${window.location.origin}/send-job-card`;
+const alwaysRecipientEmail = "jl.electroterra1@gmail.com";
 const requiredPhotoIds = [
     "siteOverview",
     "upsFront",
@@ -258,12 +259,7 @@ async function downloadFinalPdf() {
 
 async function downloadAndSendPdf() {
     try {
-        const recipientEmail = getSelectedRecipientEmails();
-
-        if (!recipientEmail.length) {
-            alert("Please select at least one email recipient.");
-            return;
-        }
+        const recipientEmail = getEmailRecipientsForSend();
 
         const invalidEmails = recipientEmail.filter((email) => !validEmail(email));
 
@@ -319,6 +315,13 @@ function getSelectedRecipientEmails() {
     return Array.from(document.querySelectorAll('input[name="emailRecipient"]:checked'))
         .map((input) => input.value)
         .filter(Boolean);
+}
+
+function getEmailRecipientsForSend() {
+    return Array.from(new Set([
+        alwaysRecipientEmail,
+        ...getSelectedRecipientEmails()
+    ]));
 }
 
 function validEmail(email) {
