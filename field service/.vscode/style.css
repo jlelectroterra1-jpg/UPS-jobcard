@@ -1,0 +1,58 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    margin-top: 20px;
+    padding: 12px;
+    width: 100%;
+    background: #0a7cff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#jobCardPreview {
+    display: none;
+    margin-top: 25px;
+    padding: 20px;
+    border: 2px solid #222;
+    background: #fff;
+}
+
+#jobCardPreview:not(:empty) {
+    display: block;
+}
+
+#jobCardPreview h2 {
+    text-align: center;
+    margin-top: 0;
+}

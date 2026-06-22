@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPS Job Card</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="container">
+        <header class="app-header">
+            <div>
+                <span class="app-kicker">Field Service Report</span>
+                <h1>Intrasource UPS Job Card</h1>
+            </div>
+            <div class="step-pill" id="stepIndicator">Step 1 of 7</div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" type="button" data-step="0">1. Store</button>
+            <button class="tab" type="button" data-step="1">2. Technician</button>
+            <button class="tab" type="button" data-step="2">3. Issue</button>
+            <button class="tab" type="button" data-step="3">4. Photos</button>
+            <button class="tab" type="button" data-step="4">5. Action</button>
+            <button class="tab" type="button" data-step="5">6. Manager</button>
+            <button class="tab" type="button" data-step="6">7. Preview</button>
+        </div>
+
+        <section class="step active">
+            <h2>Store Details</h2>
+
+            <label>Store Name</label>
+            <input type="text" id="storeName" placeholder="Example: SR Mini Nkandla">
+
+            <label>Store Number</label>
+            <input type="text" id="storeNumber" placeholder="Example: 060294">
+
+            <label>Starting Time (24h)</label>
+            <input type="text" id="startingTime" inputmode="numeric" maxlength="4" placeholder="Example: 1430">
+        </section>
+
+        <section class="step">
+            <h2>Technician Details</h2>
+
+            <div class="auto-date">
+                <span>Date from device</span>
+                <strong id="jobDateDisplay"></strong>
+            </div>
+
+            <label>Technician Name</label>
+            <select id="technicianName">
+                <option value="">Select technician</option>
+                <option value="John-Luther Norval">John-Luther Norval</option>
+                <option value="Luther Norval">Luther Norval</option>
+                <option value="Rogan Lusted">Rogan Lusted</option>
+            </select>
+
+            <div class="tech-details" id="technicianDetails">
+                Select a technician to load their details.
+            </div>
+
+            <div class="signature-card">
+                <div class="signature-header">
+                    <strong>Technician Signature</strong>
+                    <button class="secondary-button" type="button" data-clear-signature="technician">Clear</button>
+                </div>
+                <canvas id="technicianSignature" width="700" height="220"></canvas>
+            </div>
+        </section>
+
+        <section class="step">
+            <h2>Nature of Issue</h2>
+
+            <div class="choice-grid">
+                <div>
+                    <label>Reason</label>
+                    <select id="reason">
+                        <option value="">Select reason</option>
+                        <option value="Incident">Incident</option>
+                        <option value="Investigation">Investigation</option>
+                        <option value="Request from ITFS">Request from ITFS</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Discipline</label>
+                    <select id="discipline">
+                        <option value="">Select discipline</option>
+                        <option value="UPS">UPS</option>
+                        <option value="Generator">Generator</option>
+                        <option value="Electrics">Electrics</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Description of Work</label>
+                    <select id="descriptionOfWork">
+                        <option value="">Select description</option>
+                        <option value="UPS Fault">UPS Fault</option>
+                        <option value="Netman">Netman</option>
+                        <option value="Electrics Fault">Electrics Fault</option>
+                        <option value="Generator Fault">Generator Fault</option>
+                        <option value="Time & Materials">Time & Materials</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <label>What was the problem?</label>
+            <textarea rows="7" id="natureIssue" placeholder="Example: UPS not staying on when power fails."></textarea>
+        </section>
+
+        <section class="step">
+            <h2>Required Photos</h2>
+
+            <label>Hardware Type</label>
+            <select id="hardwareType">
+                <option value="">Select hardware type</option>
+                <option value="Tower 3300">Tower 3300</option>
+                <option value="Tower 1100">Tower 1100</option>
+                <option value="Mecer 6kva">Mecer 6kva</option>
+                <option value="AWP small">AWP small</option>
+                <option value="AWP big">AWP big</option>
+            </select>
+
+            <p class="photo-help">
+                Take all 11 photos before moving to Action Taken.
+            </p>
+
+            <div class="photo-counter">
+                <strong id="photoCount">0</strong> of 11 photos taken
+            </div>
+
+            <div class="photo-list">
+                <div class="photo-item">
+                    <div>
+                        <strong>Site Overview Photo</strong>
+                        <span>Show the area where the UPS is installed.</span>
+                    </div>
+                    <label class="camera-button">
+                        Take Photo
+                        <input type="file" accept="image/*" capture="environment" data-photo-id="siteOverview">
+                    </label>
+                    <img id="preview-siteOverview" alt="Site overview preview">
+                </div>
+
+                <div class="photo-item">
+                    <div>
+                        <strong>UPS Front View With Door Open And Stickers Visible</strong>
+                        <span>Show the UPS front with the door open and stickers visible.</span>
+                    </div>
+                    <label class="camera-button">
+                        Take Photo
+                        <input type="file" accept="image/*" capture="environment" data-photo-id="upsFront">
+                    </label>
+                    <img id="preview-upsFront" alt="UPS front view preview">
+                </div>
+
+                <div class="photo-item">
+                    <div>
+                        <strong>UPS Serial Number Of The Label</strong>
+                        <span>Make sure the serial number on the label is readable.</span>
+                    </div>
+                    <label class="camera-button">
+                        Take Photo
+                        <input type="file" accept="image/*" capture="environment" data-photo-id="upsSerial">
+                    </label>
+                    <img id="preview-upsSerial" alt="UPS serial number preview">
+                </div>
+
+                <div class="photo-item">
+                    <div>
+                        <strong>UPS Display Diagram Screen</strong>
+                        <span>Capture the diagram/status display.</span>
+                    </div>
+                    <label class="camera-button">
+                        Take Photo
+                        <input type="file" accept="image/*" capture="environment" data-photo-id="displayDiagram">
+                    </label>
+                    <img id="preview-displayDiagram" alt="UPS display diagram screen preview">
+                </div>
+
+                <div class="photo-item">
+                    <div>
+                        <strong>UPS Specification Screen</strong>
+                        <span>Capture the screen showing UPS specifications.</span>
+                    </div>
+                    <label class="camera-button">
+                        Take Photo
+                        <input type="file" accept="image/*" capture="environment" data-photo-id="specificationScreen">
+                    </label>
+                    <img id="preview-specificationScreen" alt="UPS specification screen preview">
+                </div>
+
+                <div class="photo-item">
+                    <div>
+                        <strong>UPS DC Values Screen</strong>
+                        <span>Capture the DC values screen clearly.</span>
+                    </div>
+                    <label class="camera-button">
+                        Take Photo
+                        <input type="file" accept="image/*" capture="environment" data-photo-id="dcValues">
+                    </label>
+                    <img id="preview-dcValues" alt="UPS DC values screen preview">
+                </div>
+
+                <div class="photo-item">
+                    <div>
+                        <strong>UPS AC Values Screen</strong>
+                        <span>Capture the AC values screen clearly.</span>
+                    </div>
+                    <label class="camera-button">
+                        Take Photo
+                        <input type="file" accept="image/*" capture="environment" data-photo-id="acValues">
+                    </label>
+                    <img id="preview-acValues" alt="UPS AC values screen preview">
+                </div>
+
+                <div class="photo-item">
+                    <div>
+                        <strong>Inside of UPS Before Work / Burnt Part</strong>
+                        <span>Show the burnt part or damaged area before work is done.</span>
+                    </div>
+                    <label class="camera-button">
+                        Take Photo
+                        <input type="file" accept="image/*" capture="environment" data-photo-id="insideUpsBefore">
+                    </label>
+                    <img id="preview-insideUpsBefore" alt="Inside of UPS before work preview">
+                </div>
+
+                <div class="photo-item">
+                    <div>
+                        <strong>Inside of UPS After Part Replaced</strong>
+                        <span>Show the inside of the UPS after the damaged part has been replaced.</span>
+                    </div>
+                    <label class="camera-button">
+                        Take Photo
+                        <input type="file" accept="image/*" capture="environment" data-photo-id="insideUpsAfter">
+                    </label>
+                    <img id="preview-insideUpsAfter" alt="Inside of UPS after part replaced preview">
+                </div>
+
+                <div class="photo-item">
+                    <div>
+                        <strong>Photos of Old and New Parts Replaced</strong>
+                        <span>Show the old and new parts that were replaced.</span>
+                    </div>
+                    <label class="camera-button">
+                        Take Photo
+                        <input type="file" accept="image/*" capture="environment" data-photo-id="workDone">
+                    </label>
+                    <img id="preview-workDone" alt="Work done or part replaced preview">
+                </div>
+
+                <div class="photo-item">
+                    <div>
+                        <strong>Completed Work Photo</strong>
+                        <span>Final photo showing site left complete.</span>
+                    </div>
+                    <label class="camera-button">
+                        Take Photo
+                        <input type="file" accept="image/*" capture="environment" data-photo-id="completedWork">
+                    </label>
+                    <img id="preview-completedWork" alt="Completed work preview">
+                </div>
+            </div>
+        </section>
+
+        <section class="step">
+            <h2>Action Taken</h2>
+
+            <label>What did you do on site?</label>
+            <textarea rows="7" id="actionTaken" placeholder="Example: Replaced batteries, tested load, confirmed UPS operation."></textarea>
+        </section>
+
+        <section class="step">
+            <h2>Manager Name And Signature</h2>
+
+            <label>Manager Name</label>
+            <input type="text" id="managerName" placeholder="Store manager / store representative name">
+
+            <div class="signature-card">
+                <div class="signature-header">
+                    <strong>Manager Signature</strong>
+                    <button class="secondary-button" type="button" data-clear-signature="manager">Clear</button>
+                </div>
+                <canvas id="managerSignature" width="700" height="220"></canvas>
+            </div>
+
+            <div class="photo-item stamp-photo-item">
+                <div>
+                    <strong>Store Stamp Photo</strong>
+                    <span>Take one clear photo of the store stamp for the stamp box with manager's initials.</span>
+                </div>
+                <label class="camera-button">
+                    Take Store Stamp Photo
+                    <input type="file" accept="image/*" capture="environment" id="storeStampPhoto">
+                </label>
+                <img id="preview-storeStamp" alt="Store stamp preview">
+            </div>
+
+            <label>Ending Time (24h)</label>
+            <input type="text" id="endingTime" inputmode="numeric" maxlength="4" placeholder="Example: 1530">
+        </section>
+
+        <section class="step">
+            <h2>Job Card Preview</h2>
+
+            <div class="email-options">
+                <strong>Email Recipients</strong>
+
+                <label>
+                    <input type="checkbox" name="emailRecipient" value="johnluthernorval@gmail.com">
+                    johnluthernorval@gmail.com
+                </label>
+
+                <label>
+                    <input type="checkbox" name="emailRecipient" value="technical2power4u.co.za">
+                    technical2power4u.co.za
+                </label>
+
+                <label>
+                    <input type="checkbox" name="emailRecipient" value="projects@intrasource.co.za">
+                    projects@intrasource.co.za
+                </label>
+            </div>
+
+            <div id="appStatus" class="app-status" role="status" aria-live="polite"></div>
+
+            <button id="downloadPdfButton" type="button" onclick="downloadFinalPdf()">
+                Download PDF
+            </button>
+
+            <button id="downloadSendPdfButton" type="button" onclick="downloadAndSendPdf()">
+                Download & Send PDF
+            </button>
+
+            <button type="button" onclick="shareFinalPdf()">
+                Open Gmail Email Fallback
+            </button>
+
+            <div id="jobCardPreview"></div>
+            <div id="photoPreview"></div>
+        </section>
+
+        <div class="navigation">
+            <button type="button" id="backButton">Back</button>
+            <button type="button" id="nextButton">Next</button>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+
+</body>
+</html>

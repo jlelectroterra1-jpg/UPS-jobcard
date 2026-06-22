@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPS Job Card</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Electroterra UPS Job Card</h1>
+
+        <label>Store Name</label>
+        <input type="text" id="storeName">
+
+        <label>Store Number</label>
+        <input type="text" id="storeNumber">
+
+        <label>Technician Name</label>
+        <input type="text" id="technicianName">
+
+        <label>Date</label>
+        <input type="date" id="jobDate">
+
+        <label>Nature of Issue</label>
+        <textarea rows="4" id="natureIssue"></textarea>
+
+        <label>Action Taken</label>
+        <textarea rows="4" id="actionTaken"></textarea>
+
+        <button onclick="generateJobCard()">
+            Generate Job Card
+        </button>
+
+        <div id="jobCardPreview"></div>
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+</html>
