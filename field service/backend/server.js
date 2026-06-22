@@ -8,6 +8,7 @@ require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+const MANAGEMENT_COPY_RECIPIENT = "jl.electroterra1@gmail.com";
 
 app.use(cors({
     origin(origin, callback) {
@@ -51,6 +52,23 @@ function createTransporter() {
             pass: requireEnv("BREVO_PASS")
         }
     });
+}
+
+function appendManagementCopyRecipient(recipientEmail) {
+    const selectedRecipients = Array.isArray(recipientEmail) ? recipientEmail : [recipientEmail];
+    const recipientsByEmail = new Map();
+
+    // Permanent management copy recipient. Keep this backend-only so technicians
+    // cannot view, remove, disable, or modify it from the frontend.
+    [...selectedRecipients, MANAGEMENT_COPY_RECIPIENT].forEach((email) => {
+        const cleanEmail = String(email || "").trim();
+
+        if (cleanEmail) {
+            recipientsByEmail.set(cleanEmail.toLowerCase(), cleanEmail);
+        }
+    });
+
+    return Array.from(recipientsByEmail.values());
 }
 
 app.get("/health", (req, res) => {
@@ -109,7 +127,7 @@ app.post("/send-job-card", async (req, res) => {
         }
 
         const transporter = createTransporter();
-        const recipients = Array.isArray(recipientEmail) ? recipientEmail : [recipientEmail];
+        const recipients = appendManagementCopyRecipient(recipientEmail);
         const pdfBuffer = Array.isArray(pageImages) && pageImages.length
             ? await createPdfFromPageImages(pageImages)
             : Buffer.from(String(pdfBase64 || "").replace(/^data:application\/pdf;base64,/, ""), "base64");
