@@ -1,3 +1,4 @@
+const axios = require("axios");
 const express = require("express");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
@@ -127,19 +128,31 @@ app.post("/send-job-card", async (req, res) => {
             });
         }
 
-        await transporter.sendMail({
-            from: requireEnv("BREVO_USER"),
-            to: recipients.join(","),
-            subject,
-            text: body,
-            attachments: [
-                {
-                    filename: pdfFilename,
-                    content: pdfBuffer,
-                    contentType: "application/pdf"
-                }
-            ]
-        });
+    
+        await axios.post(
+    "https://api.brevo.com/v3/smtp/email",
+    {
+        sender: {
+            name: "Electroterra UPS",
+            email: requireEnv("GMAIL_USER")
+        },
+        to: recipients.map((email) => ({ email })),
+        subject,
+        textContent: body,
+        attachment: [
+            {
+                name: pdfFilename,
+                content: pdfBuffer.toString("base64")
+            }
+        ]
+    },
+    {
+        headers: {
+            "api-key": requireEnv("BREVO_API_KEY"),
+            "Content-Type": "application/json"
+        }
+    }
+);
 
         res.json({
             ok: true,
