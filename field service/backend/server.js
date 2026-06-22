@@ -42,17 +42,13 @@ function requireEnv(name) {
 
 function createTransporter() {
     return nodemailer.createTransport({
-        host: "smtp.gmail.com",
+        host: "smtp-relay.brevo.com",
         port: 587,
         secure: false,
-        requireTLS: true,
         auth: {
-            user: requireEnv("GMAIL_USER"),
-            pass: requireEnv("GMAIL_APP_PASSWORD")
-        },
-        connectionTimeout: 60000,
-        greetingTimeout: 60000,
-        socketTimeout: 60000
+            user: requireEnv("BREVO_USER"),
+            pass: requireEnv("BREVO_PASS")
+        }
     });
 }
 
