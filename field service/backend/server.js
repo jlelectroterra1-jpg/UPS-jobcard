@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
 const PDFDocument = require("pdfkit");
+const path = require("path");
 require("dotenv").config();
 
 const app = express();
@@ -21,6 +22,14 @@ app.use(cors({
     }
 }));
 app.use(express.json({ limit: "50mb" }));
+
+const path = require("path");
+
+app.use(express.static(path.join(__dirname, "..")));
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "..", "index.html"));
+});
 
 function requireEnv(name) {
     const value = process.env[name];
