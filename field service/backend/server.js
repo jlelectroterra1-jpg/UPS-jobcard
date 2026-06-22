@@ -42,11 +42,16 @@ function requireEnv(name) {
 
 function createTransporter() {
     return nodemailer.createTransport({
-        service: "gmail",
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
         auth: {
             user: requireEnv("GMAIL_USER"),
             pass: requireEnv("GMAIL_APP_PASSWORD")
-        }
+        },
+        connectionTimeout: 30000,
+        greetingTimeout: 30000,
+        socketTimeout: 30000
     });
 }
 
