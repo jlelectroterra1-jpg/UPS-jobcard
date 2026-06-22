@@ -43,8 +43,8 @@ function requireEnv(name) {
 function createTransporter() {
     return nodemailer.createTransport({
         host: "smtp-relay.brevo.com",
-        port: 587,
-        secure: false,
+        port: 465,
+        secure: true,
         auth: {
             user: requireEnv("BREVO_USER"),
             pass: requireEnv("BREVO_PASS")
