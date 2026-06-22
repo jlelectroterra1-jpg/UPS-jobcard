@@ -128,7 +128,7 @@ app.post("/send-job-card", async (req, res) => {
         }
 
         await transporter.sendMail({
-            from: requireEnv("GMAIL_USER"),
+            from: requireEnv("BREVO_USER"),
             to: recipients.join(","),
             subject,
             text: body,
